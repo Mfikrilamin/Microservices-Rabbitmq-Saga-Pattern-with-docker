@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: "rmq3"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  servicea:
+    build: ./Service-A
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8095:8095"
+    tty: true
+    restart: unless-stopped
+
+
+  serviceb:
+    build: ./Service-B
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8096:8096"
+    tty: true
+    restart: unless-stopped
